@@ -3,22 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>네이버 블로그 지수 조회</title>
+    <title>블로그 지수 조회 플랫폼</title>
     <style>
-        body { font-family: sans-serif; background-color: #f9f9f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { text-align: center; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        input[type="text"] { padding: 10px; width: 250px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
-        button { padding: 10px 20px; background-color: #03cf5d; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-left: 10px; }
+        /* 미니멀하고 세련된 블라이 스타일 레이아웃 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f7f9fc;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 460px;
+            padding: 20px;
+        }
+
+        .brand-zone {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* 깔끔한 라인 스타일의 심볼 마크 효과 */
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background-color: #ffffff;
+            border: 2px solid #03cf5d;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(3, 207, 93, 0.08);
+        }
+
+        /* 로고 내부의 심플한 블랙 라인 그래픽 */
+        .brand-logo svg {
+            width: 28px;
+            height: 28px;
+            stroke: #1e293b;
+            stroke-width: 2.5;
+            fill: none;
+        }
+
+        .brand-zone h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin: 0 0 8px 0;
+            color: #0f172a;
+        }
+
+        .brand-zone p {
+            font-size: 15px;
+            color: #64748b;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .search-container {
+            background: #ffffff;
+            padding: 32px 24px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            padding-left: 4px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        /* 엠보싱 없이 플랫하고 선명한 인풋창 */
+        input[type="text"] {
+            width: 100%;
+            padding: 16px 16px 16px 44px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #0f172a;
+            background-color: #f8fafc;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #03cf5d;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(3, 207, 93, 0.1);
+        }
+
+        /* 인풋창 내부 아이콘 코딩 */
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* 시선을 끄는 와이드한 메인 버튼 */
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #03cf5d;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(3, 207, 93, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #02b852;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(3, 207, 93, 0.25);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .footer-notice {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>네이버 블로그 지수 조회</h1>
-        <p>조회하려는 네이버 블로그 아이디를 입력하세요.</p>
-        <form action="result.html" method="GET">
-            <input type="text" name="blogId" placeholder="블로그 아이디 입력" required>
-            <button type="submit">조회하기</button>
-        </form>
+
+    <div class="main-wrapper">
+        <div class="brand-zone">
+            <div class="brand-logo">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    <path d="M10 7v6m3-3h-6"></path>
+                </svg>
+            </div>
+            <h1>블로그 지수 분석기</h1>
+            <p>네이버 블로그의 실시간 등급과 포스팅 상태를 조회합니다</p>
+        </div>
+
+        <div class="search-container">
+            <form action="result.html" method="GET">
+                <div class="input-group">
+                    <label for="blogId">네이버 블로그 아이디</label>
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <input type="text" id="blogId" name="blogId" placeholder="ex) naver_id" required autocomplete="off">
+                    </div>
+                </div>
+                <button type="submit">실시간 지수 조회하기</button>
+            </form>
+        </div>
+
+        <div class="footer-notice">
+            본 서비스는 블로그 RSS 데이터를 기반으로 작동하는 공개 분석 도구입니다.<br>
+            © blanklog. All rights reserved.
+        </div>
     </div>
+
 </body>
 </html>
