@@ -102,22 +102,22 @@
                     postHtml += `<li class="post-item"><a href="${link}" target="_blank">📄 ${title}</a></li>`;
                 }
 
-                // 🛠️ [정직한 RSS 기반 판정 알고리즘]
-                // 수집된 한정적인 데이터를 있는 그대로 분류하되, 블라이의 확률적 체급에 맞춥니다.
+                // 🛠️ 등급 밸런스 정밀 보정 (커트라인 대폭 상향버전)
                 let grade = "일반 블로그";
-                let statusText = "정밀 통계 추정치";
+                let statusText = "RSS 기반 실시간 판정";
 
-                if (totalPosts >= 15) {
-                    // RSS 제공 한도 끝까지 긁혀왔다면 활동량이 매우 높은 최적화 체급 블로그
-                    grade = "최적화 등급 (RSS 활성)";
+                if (totalPosts >= 18) {
+                    grade = "최적화 2단계 (RSS 활성)";
+                } else if (totalPosts >= 15) {
+                    grade = "최적화 1단계 (RSS 활성)";
+                } else if (totalPosts >= 10) {
+                    grade = "준최적화 5단계 (RSS 수집)";
                 } else if (totalPosts >= 6) {
-                    // 중간 체급 혹은 RSS 발행 제한이 걸린 최적화/준최 최상위 블로그
-                    grade = "최적화 일반 (RSS 수집)";
+                    grade = "준최적화 4단계 (RSS 수집)";
                 } else if (totalPosts >= 3) {
-                    // 네이버 기본 설정(3개/5개)으로 긁혀온 일반적인 대다수의 준최적화 블로그 계층
-                    grade = "준최적화 등급 (RSS 제한)";
+                    grade = "준최적화 2단계 (RSS 제한)";
                 } else {
-                    grade = "신규/일반 블로그";
+                    grade = "일반/신규 블로그";
                 }
 
                 document.getElementById('postContainer').innerHTML = postHtml;
