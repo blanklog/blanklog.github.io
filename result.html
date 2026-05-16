@@ -95,6 +95,8 @@
             border-radius: 14px;
             padding: 24px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
         }
 
         .card-title {
@@ -154,6 +156,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
+            margin-top: auto;
         }
 
         .stat-box {
@@ -177,7 +180,7 @@
 
         .jisu-display {
             text-align: center;
-            padding: 10px 0;
+            padding: 5px 0;
         }
 
         .gauge-subtext {
@@ -190,15 +193,15 @@
             font-size: 32px;
             font-weight: 800;
             color: #03cf5d; 
-            margin: 0 0 25px 0;
+            margin: 0 0 20px 0;
             text-shadow: 0 0 15px rgba(3, 207, 93, 0.25);
         }
 
         .circle-chart-wrapper {
             position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 20px auto;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 15px auto;
         }
 
         .circle-chart {
@@ -213,8 +216,8 @@
         }
 
         .circle-chart-inner {
-            width: 110px;
-            height: 110px;
+            width: 102px;
+            height: 102px;
             background: #161b22;
             border-radius: 50%;
             display: flex;
@@ -224,7 +227,7 @@
         }
 
         .circle-score {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
             color: #ffffff;
         }
@@ -232,17 +235,48 @@
         .circle-label {
             font-size: 11px;
             color: #8b949e;
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
         .analysis-status-badge {
-            font-size: 13px;
+            font-size: 12px;
             color: #8b949e;
             background: #0d1117;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 8px;
             border: 1px solid #21262d;
             display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* 📋 6년차 디자이너를 위해 마감한 미니멀 산출근거 블록 서식 */
+        .formula-notice-box {
+            background: #0d1117;
+            border: 1px dashed #30363d;
+            border-radius: 10px;
+            padding: 14px 16px;
+            text-align: left;
+            margin-top: auto;
+        }
+
+        .formula-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8b949e;
+            text-transform: uppercase;
+            margin: 0 0 6px 0;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .formula-text {
+            font-size: 11px;
+            color: #6e7681;
+            line-height: 1.5;
+            margin: 0;
+            word-break: keep-all;
         }
 
         .post-list {
@@ -391,8 +425,15 @@
                     </div>
                     
                     <div class="analysis-status-badge">
-                        노출 상태 상태: <span id="statusText" style="color: #03cf5d; font-weight:700;">정상</span>
+                        노출 가중 상태: <span id="statusText" style="color: #03cf5d; font-weight:700;">정상</span>
                     </div>
+                </div>
+
+                <div class="formula-notice-box">
+                    <p class="formula-title">📋 지수 가중치 산출 근거 안내</p>
+                    <p class="formula-text">
+                        본 지표는 포털 공식 최고 지수와는 무관한 임의 계산값입니다. 최근 30일 이내 당월 포스팅 업로드 빈도(Volume), 발행 주기 성실도(Frequency), 제목 및 콘텐츠 본문 텍스트 밀도 가중치를 실시간 다차원 연산하여 도출한 대략적인 활성 점수이오니 블로그 운영 참고용으로만 활용해 주시기 바랍니다.
+                    </p>
                 </div>
             </div>
 
@@ -413,7 +454,9 @@
         document.getElementById('currentTime').innerText = formattedDate;
 
         const urlParams = new URLSearchParams(window.location.search);
-        const blogId = urlParams.get('blogId');
+        const rawBlogId = urlParams.get('blogId');
+
+        const blogId = rawBlogId ? decodeURIComponent(rawBlogId) : null;
 
         if (!blogId) {
             document.getElementById('loader').innerHTML = "<span style='color:#ff6b6b; font-weight:bold;'>올바른 블로그 ID가 전달되지 않았습니다.</span>";
@@ -487,30 +530,30 @@
 
                 let score = 0;
 
-                if (activeMonthPosts >= 8) score += 40;     
-                else if (activeMonthPosts >= 4) score += 25; 
-                else if (activeMonthPosts >= 1) score += 10; 
+                if (activeMonthPosts >= 6) score += 40;     
+                else if (activeMonthPosts >= 3) score += 30; 
+                else if (activeMonthPosts >= 1) score += 15; 
                 else score += 5;
 
                 const avgTitleLength = totalTitleLength / Math.min(totalPosts, 5);
-                if (avgTitleLength >= 40) score += 30; 
-                else if (avgTitleLength >= 23) score += 20;
+                if (avgTitleLength >= 30) score += 30; 
+                else if (avgTitleLength >= 18) score += 20;
                 else score += 10;
 
-                if (dates.length >= 2 && activeMonthPosts >= 2) {
+                if (dates.length >= 2 && activeMonthPosts >= 1) {
                     const timeDiff = Math.abs(dates[0] - dates[1]) / (1000 * 60 * 60 * 24);
-                    if (timeDiff <= 3) score += 30; 
-                    else if (timeDiff <= 7) score += 20;
+                    if (timeDiff <= 5) score += 30; 
+                    else if (timeDiff <= 10) score += 20;
                     else score += 10;
                 } else {
                     score += 5; 
                 }
 
                 let grade = "일반 블로그";
-                if (score >= 85) grade = "최적화";
-                else if (score >= 60) grade = "준최 최상위";
+                if (score >= 80) grade = "최적화 등급";     
+                else if (score >= 55) grade = "준최 최상위"; 
                 else if (score >= 35) grade = "준최 등급";
-                else grade = "일반 블로그";
+                else grade = "분석 일반";
 
                 document.getElementById('circleScore').innerText = `${score}점`;
                 document.getElementById('circleChart').style.background = `conic-gradient(#03cf5d ${score}%, #21262d ${score}% 100%)`;
