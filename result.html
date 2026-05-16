@@ -5,72 +5,377 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>블로그 지수 분석 블랭크로그 | BlankLog</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #0d1117; color: #ecf0f1; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
-        .container { background: #161b22; padding: 35px; border-radius: 16px; border: 1px solid #30363d; box-shadow: 0 10px 25px rgba(0,0,0,0.4); width: 100%; max-width: 480px; }
-        .loading { font-size: 16px; color: #8b949e; padding: 40px 0; text-align: center; }
-        .spinner { border: 4px solid rgba(255,255,255,0.1); width: 36px; height: 36px; border-radius: 50%; border-left-color: #03cf5d; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .error-msg { color: #ff6b6b; font-weight: bold; text-align: center; padding: 20px 0; }
-        .blog-info { display: none; text-align: left; }
-        h2 { font-size: 22px; font-weight: 700; text-align: center; margin-top: 0; margin-bottom: 25px; color: #ffffff; }
-        .info-row { display: flex; justify-content: space-between; align-items: center; background: #0d1117; padding: 12px 16px; border-radius: 8px; margin-bottom: 12px; font-size: 15px; border: 1px solid #21262d; }
-        .info-label { color: #8b949e; font-weight: 500; }
-        .info-value { font-weight: 700; color: #ffffff; }
-        .grade-box { text-align: center; background: rgba(3, 207, 93, 0.06); padding: 24px; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(3, 207, 93, 0.25); }
-        .grade-title { font-size: 13px; color: #03cf5d; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 5px 0; }
-        .grade-value { color: #03cf5d; font-size: 32px; font-weight: 800; margin: 0; text-shadow: 0 0 10px rgba(3, 207, 93, 0.2); }
-        .section-title { font-size: 15px; font-weight: 700; color: #ffffff; margin: 25px 0 10px 0; border-left: 4px solid #03cf5d; padding-left: 8px; }
-        .post-list { list-style: none; padding: 0; margin: 0; }
-        .post-item { padding: 12px 5px; border-bottom: 1px solid #21262d; font-size: 14px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-        .post-item a { color: #c9d1d9; text-decoration: none; font-weight: 500; }
-        .post-item a:hover { color: #03cf5d; text-decoration: underline; }
-        .back-btn { display: block; text-align: center; margin-top: 30px; padding: 12px; background: #21262d; color: #c9d1d9; text-decoration: none; font-size: 14px; font-weight: 600; border-radius: 8px; transition: background 0.2s; border: 1px solid #30363d; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0d1117; 
+            color: #ecf0f1;
+            margin: 0;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 1100px; 
+            display: none; 
+        }
+
+        .header-zone {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .header-zone h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .header-zone h2 span {
+            color: #03cf5d;
+        }
+
+        .timestamp {
+            font-size: 13px;
+            color: #8b949e;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr 1.2fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-layout { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b949e;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .profile-zone {
+            text-align: center;
+            padding: 10px 0 20px 0;
+            border-bottom: 1px solid #21262d;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 50px;
+            height: 50px;
+            background: #21262d;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 10px;
+            border: 1px solid #30363d;
+        }
+
+        .profile-id {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 4px 0;
+        }
+
+        .profile-tag {
+            font-size: 12px;
+            color: #8b949e;
+            background: #21262d;
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .meta-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stat-box {
+            background: #0d1117;
+            border: 1px solid #21262d;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #8b949e;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .jisu-display {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .gauge-subtext {
+            font-size: 12px;
+            color: #8b949e;
+            margin-bottom: 5px;
+        }
+
+        .main-grade-text {
+            font-size: 32px;
+            font-weight: 800;
+            color: #03cf5d;
+            margin: 0 0 25px 0;
+            text-shadow: 0 0 15px rgba(3, 207, 93, 0.3);
+        }
+
+        .circle-chart-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px auto;
+        }
+
+        .circle-chart {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(#03cf5d 0%, #1f242c 0%); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle-chart-inner {
+            width: 110px;
+            height: 110px;
+            background: #161b22;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle-score {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .circle-label {
+            font-size: 11px;
+            color: #8b949e;
+            margin-top: 2px;
+        }
+
+        .analysis-status-badge {
+            font-size: 13px;
+            color: #8b949e;
+            background: #0d1117;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid #21262d;
+            display: inline-block;
+        }
+
+        .post-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .post-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #0d1117;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid #21262d;
+            transition: border-color 0.2s;
+        }
+
+        .post-item:hover {
+            border-color: #30363d;
+        }
+
+        .post-badge {
+            background: #21262d;
+            color: #03cf5d;
+            font-size: 12px;
+            font-weight: 700;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .post-content {
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .post-content a {
+            color: #c9d1d9;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .post-content a:hover {
+            color: #03cf5d;
+            text-decoration: underline;
+        }
+
+        .actions-zone {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #21262d;
+            color: #c9d1d9;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background 0.2s;
+            border: 1px solid #30363d;
+        }
+
         .back-btn:hover { background: #30363d; }
+
+        .loader-wrapper {
+            text-align: center;
+            padding: 60px 0;
+        }
+        .spinner { border: 4px solid rgba(255,255,255,0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: #03cf5d; animation: spin 1s linear infinite; margin: 0 auto 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="loader" class="loading">
-            <div class="spinner"></div>
-            <b>네이버 RSS 다차원 지표 분석 중입니다</b>
+
+    <div id="loader" class="loader-wrapper">
+        <div class="spinner"></div>
+        <b style="color: #8b949e; font-size: 15px;">네이버 블로그 실시간 빅데이터 지표 분석 중...</b>
+    </div>
+
+    <div id="dashboard" class="dashboard-container">
+        <div class="header-zone">
+            <h2><span id="headerId">-</span> 블로그 분석 리포트</h2>
+            <div id="currentTime" class="timestamp">-</div>
         </div>
-        
-        <div id="resultContent" class="blog-info">
-            <h2>지수 분석 결과</h2>
-            <div class="info-row">
-                <span class="info-label">블로그 ID</span>
-                <span id="displayId" class="info-value">-</span>
-            </div>
-            
-            <div class="info-row">
-                <span class="info-label">분석 지표 스코어</span>
-                <span id="analysisScore" class="info-value" style="color: #03cf5d;">0점</span>
+
+        <div class="grid-layout">
+            <div class="card">
+                <p class="card-title">ℹ️ 블로그 정보</p>
+                <div class="profile-zone">
+                    <div class="profile-avatar">📁</div>
+                    <p id="displayId" class="profile-id">-</p>
+                    <span class="profile-tag">미술·디자인·포트폴리오</span>
+                </div>
+                <div class="meta-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">분석 데이터 소스</div>
+                        <div class="stat-value" style="color: #03cf5d; font-size: 14px;">네이버 실시간 RSS</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">추적 포스팅 수</div>
+                        <div id="collectedCount" class="stat-value">-</div>
+                    </div>
+                </div>
             </div>
 
-            <div class="grade-box">
-                <p class="grade-title">종합 분석 지수</p>
-                <p id="blogGrade" class="grade-value">연산 중</p>
+            <div class="card">
+                <p class="card-title">📈 지수 및 노출 분석</p>
+                <div class="jisu-display">
+                    <p class="gauge-subtext">종합 분석 지수 판정</p>
+                    <p id="blogGrade" class="main-grade-text">분석 중</p>
+                    
+                    <div class="circle-chart-wrapper">
+                        <div id="circleChart" class="circle-chart">
+                            <div class="circle-chart-inner">
+                                <span id="circleScore" class="circle-score">0점</span>
+                                <span class="circle-label">노출 가중치</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-status-badge">
+                        노출 상태 상태: <span style="color:#03cf5d; font-weight:700;">정상</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="info-row" style="background: transparent; padding: 0 5px; margin-bottom: 20px; border: none;">
-                <span class="info-label">데이터 분석 상태</span>
-                <span id="postStatus" class="info-value" style="color: #8b949e;">RSS 다차원 가중치 연산 완료</span>
+            <div class="card">
+                <p class="card-title">🔥 최근 핵심 분석 포스팅</p>
+                <ul id="postContainer" class="post-list">
+                    </ul>
             </div>
-            
-            <div class="section-title">최근 발행 포스팅 리스트</div>
-            <ul id="postContainer" class="post-list"></ul>
         </div>
-        <a href="index.html" class="back-btn">← 다른 아이디 조회하기</a>
+
+        <div class="actions-zone">
+            <a href="index.html" class="back-btn">← 다른 아이디 조회하기</a>
+        </div>
     </div>
 
     <script>
+        const now = new Date();
+        const formattedDate = now.getFullYear() + '-' + 
+            String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+            String(now.getDate()).padStart(2, '0') + ' ' + 
+            String(now.getHours()).padStart(2, '0') + ':' + 
+            String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('currentTime').innerText = formattedDate;
+
         const urlParams = new URLSearchParams(window.location.search);
         const blogId = urlParams.get('blogId');
 
         if (!blogId) {
-            document.getElementById('loader').innerHTML = "<span class='error-msg'>올바른 블로그 ID가 전달되지 않았습니다.</span>";
+            document.getElementById('loader').innerHTML = "<span style='color:#ff6b6b; font-weight:bold;'>올바른 블로그 ID가 전달되지 않았습니다.</span>";
         } else {
             document.getElementById('displayId').innerText = blogId;
+            document.getElementById('headerId').innerText = blogId;
             fetchBlogRealData(blogId);
         }
 
@@ -88,9 +393,10 @@
                 const items = xmlDoc.getElementsByTagName("item");
 
                 const totalPosts = items.length;
+                document.getElementById('collectedCount').innerText = `${totalPosts}개`;
 
                 if (totalPosts === 0) {
-                    document.getElementById('loader').innerHTML = "<span class='error-msg'>존재하지 않는 아이디이거나 최근 발행 글이 없는 블로그입니다.</span>";
+                    document.getElementById('loader').innerHTML = "<span style='color:#ff6b6b; font-weight:bold;'>존재하지 않는 아이디이거나 최근 발행 글이 없는 블로그입니다.</span>";
                     return;
                 }
 
@@ -106,62 +412,53 @@
                     totalTitleLength += title.length;
                     dates.push(new Date(pubDate));
 
-                    if (i < 3) {
-                        postHtml += `<li class="post-item"><a href="${link}" target="_blank">📄 ${title}</a></li>`;
+                    if (i < 5) { 
+                        postHtml += `
+                            <li class="post-item">
+                                <div class="post-badge">${i+1}</div>
+                                <div class="post-content"><a href="${link}" target="_blank">${title}</a></div>
+                            </li>`;
                     }
                 }
 
-                // 🛠️ [정밀 가중치 계산 알고리즘 시작]
                 let score = 0;
 
-                // 1지표: 포스팅 볼륨 점수 (최대 40점)
                 if (totalPosts >= 18) score += 40;
                 else if (totalPosts >= 12) score += 30;
                 else if (totalPosts >= 6) score += 20;
                 else score += 10;
 
-                // 2지표: 콘텐츠 밀도 점수 - 제목 평균 글자 수 (최대 30점)
                 const avgTitleLength = totalTitleLength / Math.min(totalPosts, 5);
-                if (avgTitleLength >= 25) score += 30; // 제목이 길고 구체적임 (키워드 밀도 높음)
+                if (avgTitleLength >= 25) score += 30; 
                 else if (avgTitleLength >= 15) score += 20;
                 else score += 10;
 
-                // 3지표: 발행 성실도 주기 점수 (최대 30점)
                 if (dates.length >= 2) {
-                    // 가장 최근 글과 그 전 글의 시간 차이 계산 (일 단위)
                     const timeDiff = Math.abs(dates[0] - dates[1]) / (1000 * 60 * 60 * 24);
-                    if (timeDiff <= 3) score += 30; // 3일 이내 주기적인 발행 진행 중
-                    else if (timeDiff <= 7) score += 20;
+                    if (timeDiff <= 4) score += 30; 
+                    else if (timeDiff <= 8) score += 20;
                     else score += 10;
                 } else {
                     score += 10;
                 }
 
-                // 🏆 최종 합산 스코어 기반 엄격한 등급 밸런스 매칭
                 let grade = "일반 블로그";
-                if (score >= 90) {
-                    grade = "최적화 2단계";
-                } else if (score >= 75) {
-                    grade = "최적화 1단계";
-                } else if (score >= 60) {
-                    grade = "준최적화 5단계";
-                } else if (score >= 45) {
-                    grade = "준최적화 3단계";
-                } else if (score >= 30) {
-                    grade = "준최적화 1단계";
-                } else {
-                    grade = "일반 블로그";
-                }
+                if (score >= 85) grade = "최적화";
+                else if (score >= 60) grade = "준최 최상위";
+                else if (score >= 40) grade = "준최 등급";
+                else grade = "일반 블로그";
 
-                document.getElementById('analysisScore').innerText = `${score}점`;
+                document.getElementById('circleScore').innerText = `${score}점`;
+                document.getElementById('circleChart').style.background = `conic-gradient(#03cf5d ${score}%, #21262d ${score}% 100%)`;
+
                 document.getElementById('postContainer').innerHTML = postHtml;
                 document.getElementById('blogGrade').innerText = grade;
                 
                 document.getElementById('loader').style.display = "none";
-                document.getElementById('resultContent').style.display = "block";
+                document.getElementById('dashboard').style.display = "block";
 
             } catch (error) {
-                document.getElementById('loader').innerHTML = "<span class='error-msg'>네이버 데이터 수집 중 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.</span>";
+                document.getElementById('loader').innerHTML = "<span style='color:#ff6b6b; font-weight:bold;'>네이버 데이터 수집 중 통신 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.</span>";
             }
         }
     </script>
