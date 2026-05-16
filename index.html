@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B랭크로그 | BrankLog</title>
+    <title>블로그 지수 분석 브랭크로그 | BrankLog</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -22,30 +22,37 @@
             text-align: center;
             box-sizing: border-box;
         }
+        
+        /* 🌟 [디자인 교정] 왼쪽 블라이처럼 로고와 텍스트를 위아래 2단 배치로 크게 확장 */
         .brand-logo-area {
             display: flex;
+            flex-direction: column; /* 세로 배열로 변경하여 크기 극대화 */
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 8px;
+            gap: 15px;
+            margin-bottom: 12px;
         }
+        /* 로고 마크 크기를 시원시원하게 스케일업 */
         .brand-logo-area img {
-            height: 32px;
+            height: 56px; /* 기존 32px에서 대폭 확장 */
             width: auto;
             display: block;
         }
+        /* 타이틀 서체 크기를 굵고 웅장하게 키우기 */
         .brand-text {
-            font-size: 26px;
+            font-size: 38px; /* 기존 26px에서 대폭 확장 */
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
             color: #ffffff;
             text-transform: uppercase;
         }
         .main-sub {
-            font-size: 14px;
+            font-size: 15px;
             color: #8b949e;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
         }
+        
+        /* 검색 섹션 레이아웃 */
         .search-section {
             background-color: #161b22;
             border: 1px solid #30363d;
@@ -53,6 +60,9 @@
             padding: 30px 24px;
             box-shadow: 0 12px 32px rgba(0,0,0,0.4);
             margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
         .input-group {
             text-align: left;
@@ -64,42 +74,55 @@
             margin-bottom: 12px;
             display: block;
         }
+        
+        /* 🌟 [디자인 교정] 인풋 입력창 구역을 흰색(White) 배경으로 완전 반전 */
         .search-box {
             display: flex;
-            background: #0d1117;
-            border: 1px solid #30363d;
+            background: #ffffff; /* 완전히 투명하고 정갈한 흰색 바탕 */
+            border: 1px solid #ffffff;
             border-radius: 10px;
             padding: 6px;
             align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
+        /* 흰색 배경에 맞춰 입력 텍스트와 플레이스홀더 컬러 최적화 */
         .search-box input {
             flex-grow: 1;
             background: transparent;
             border: none;
             outline: none;
-            color: #ffffff;
+            color: #0d1117; /* 글자색을 어두운 톤으로 변경하여 가독성 확보 */
             padding: 10px 12px;
             font-size: 15px;
             width: 100%;
+            font-weight: 500;
         }
         .search-box input::placeholder {
-            color: #484f58;
+            color: #8b949e; /* 흰색 바탕에서 잘 보이는 차분한 회색 플레이스홀더 */
         }
-        .btn-naver {
-            background: #03cf5d;
+        
+        /* 버튼 스타일 지정 */
+        .btn-common {
             color: #ffffff;
             border: none;
-            padding: 10px 16px;
+            padding: 11px 20px;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             transition: opacity 0.2s;
-            white-space: nowrap; /* 모바일 한 줄 정렬 방어 */
+            white-space: nowrap;
             flex-shrink: 0;
         }
-        .btn-naver:hover {
-            opacity: 0.9;
+        .btn-naver { background: #03cf5d; }
+        .btn-keyword { background: #388bfd; }
+        .btn-common:hover { opacity: 0.9; }
+        
+        .divider {
+            height: 1px;
+            background: #30363d;
+            border: none;
+            margin: 5px 0;
         }
         .footer-notice {
             font-size: 11px;
@@ -122,8 +145,18 @@
             <div class="input-group">
                 <span class="input-label">블로그 지수 분석 (Naver)</span>
                 <div class="search-box">
-                    <input type="text" id="blogId" placeholder="네이버 블로그 아이디 입력" onkeypress="if(event.keyCode==13) startAnalysis()">
-                    <button class="btn-naver" onclick="startAnalysis()">분석하기</button>
+                    <input type="text" id="blogId" placeholder="네이버 블로그 ID를 입력해주세요" onkeypress="if(event.keyCode==13) startAnalysis('blog')">
+                    <button class="btn-common btn-naver" onclick="startAnalysis('blog')">분석하기</button>
+                </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="input-group">
+                <span class="input-label">키워드 노출 가치 분석 (Keyword)</span>
+                <div class="search-box">
+                    <input type="text" id="keywordId" placeholder="분석할 키워드를 입력해주세요" onkeypress="if(event.keyCode==13) startAnalysis('keyword')">
+                    <button class="btn-common btn-keyword" onclick="startAnalysis('keyword')">분석하기</button>
                 </div>
             </div>
         </div>
@@ -135,10 +168,16 @@
     </div>
 
     <script>
-        function startAnalysis() {
-            const id = document.getElementById('blogId').value.trim();
-            if (!id) return alert('네이버 블로그 아이디를 입력해주세요.');
-            location.href = `result.html?blogId=${encodeURIComponent(id)}`;
+        function startAnalysis(type) {
+            if (type === 'blog') {
+                const id = document.getElementById('blogId').value.trim();
+                if (!id) return alert('네이버 블로그 아이디를 입력해주세요.');
+                location.href = `result.html?blogId=${encodeURIComponent(id)}`;
+            } else {
+                const keyword = document.getElementById('keywordId').value.trim();
+                if (!keyword) return alert('분석할 키워드를 입력해주세요.');
+                location.href = `result.html?keywordOnly=${encodeURIComponent(keyword)}`;
+            }
         }
     </script>
 </body>
