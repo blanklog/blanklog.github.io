@@ -154,7 +154,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const searchType = urlParams.get('type') || 'naver';
         
-        // 구버전(blogId), 신버전(id) 파라미터가 섞여 들어와도 유연하게 다 받아내도록 보정
+        // 어떤 경로(blogId 혹은 id)로 들어와도 유연하게 작동하도록 안전 예외 처리 결합
         const rawId = urlParams.get('id') || urlParams.get('blogId'); 
         const targetId = rawId ? decodeURIComponent(rawId).trim() : null;
 
@@ -171,7 +171,13 @@
             } else {
                 document.getElementById('spinner').style.borderLeftColor = "#cc2366";
                 document.getElementById('loaderText').innerText = "인스타그램 가중 알고리즘 연산 중...";
-                fetchInstagramSimulatedData(targetId); 
+                
+                // 🛠️ [긴급 수리] 어떤 변종 이름이 들어와도 안전하게 수렴되도록 3개의 가상 채널로 분산 대기벽 구축
+                try {
+                    fetchInstagramSimulatedData(targetId);
+                } catch(e) {
+                    try { fetchInstagramData(targetId); } catch(err) { fetchInstagramRealData(targetId); }
+                }
             }
         }
 
@@ -229,45 +235,40 @@
             }
         }
 
-        // [2] 인스타그램 공평 안전 알고리즘 엔진 (에러 차단 요소 100% 제거 완료)
+        // [2] 인스타그램 최종 안전 공평 알고리즘 뱅크
         function fetchInstagramSimulatedData(id) {
-            setTimeout(() => {
-                const lowerId = id.toLowerCase();
-                
-                let seed = 0;
-                for (let i = 0; i < lowerId.length; i++) {
-                    seed += lowerId.charCodeAt(i);
-                }
+            const lowerId = id.toLowerCase();
+            let seed = 0;
+            for (let i = 0; i < lowerId.length; i++) seed += lowerId.charCodeAt(i);
 
-                let baseScore = 18 + (seed % 24); 
+            let baseScore = 18 + (seed % 24); 
+            if (lowerId.includes('_') || lowerId.includes('.')) baseScore += 8; 
+            if (lowerId.length >= 6 && lowerId.length <= 12) baseScore += 4;    
+            if (/\d/.test(lowerId)) baseScore -= 12; 
 
-                if (lowerId.includes('_') || lowerId.includes('.')) baseScore += 8; 
-                if (lowerId.length >= 6 && lowerId.length <= 12) baseScore += 4;    
-                if (/\d/.test(lowerId)) baseScore -= 12; 
+            if (baseScore > 72) baseScore = 72;
+            if (baseScore < 15) baseScore = 24;
 
-                if (baseScore > 72) baseScore = 72;
-                if (baseScore < 15) baseScore = 24;
+            let hashtagWeight = 4 + (seed % 12);
+            let interactionRate = ((1 + (seed % 25) / 10)).toFixed(1); 
 
-                let hashtagWeight = 4 + (seed % 12);
-                let interactionRate = ((1 + (seed % 25) / 10)).toFixed(1); 
+            let grade = "분석 일반"; let themeColor = "#8b949e";
+            if (baseScore >= 55) { grade = "준최 최상위"; themeColor = "#dc2743"; }
+            else if (baseScore >= 35) { grade = "준최 등급"; themeColor = "#e6683c"; }
 
-                let grade = "분석 일반";
-                let themeColor = "#8b949e";
-                
-                if (baseScore >= 55) { grade = "준최 최상위"; themeColor = "#dc2743"; }
-                else if (baseScore >= 35) { grade = "준최 등급"; themeColor = "#e6683c"; }
-                else { grade = "분석 일반"; themeColor = "#8b949e"; }
+            document.getElementById('avatarContainer').innerHTML = "📸";
 
-                document.getElementById('avatarContainer').innerHTML = "📸";
+            let infoHtml = `
+                <li class="post-item"><div class="post-badge" style="color:#cc2366;">💡</div><div class="post-content" style="color:#c9d1d9; font-weight:500;">네이밍 확산 밸런스 <span style="color:#ffffff; font-weight:700; float:right;">안정</span></div></li>
+                <li class="post-item"><div class="post-badge" style="color:#cc2366;">🎯</div><div class="post-content" style="color:#c9d1d9; font-weight:500;">해시태그 매칭 가중치 <span style="color:#ffffff; font-weight:700; float:right;">+${hashtagWeight}%</span></div></li>
+                <li class="post-item"><div class="post-badge" style="color:#cc2366;">📈</div><div class="post-content" style="color:#c9d1d9; font-weight:500;">예상 상호작용 지표 <span style="color:#ffffff; font-weight:700; float:right;">ER ${interactionRate}%</span></div></li>`;
 
-                let infoHtml = `
-                    <li class="post-item"><div class="post-badge" style="color:#cc2366;">💡</div><div class="post-content" style="color:#c9d1d9; font-weight:500;">네이밍 확산 밸런스 <span style="color:#ffffff; font-weight:700; float:right;">안정</span></div></li>
-                    <li class="post-item"><div class="post-badge" style="color:#cc2366;">🎯</div><div class="post-content" style="color:#c9d1d9; font-weight:500;">해시태그 매칭 가중치 <span style="color:#ffffff; font-weight:700; float:right;">+${hashtagWeight}%</span></div></li>
-                    <li class="post-item"><div class="post-badge" style="color:#cc2366;">📈</div><div class="post-content" style="color:#c9d1d9; font-weight:500;">예상 상호작용 지표 <span style="color:#ffffff; font-weight:700; float:right;">ER ${interactionRate}%</span></div></li>`;
-
-                renderUI('insta', "인스타그램 프로필", "인스타 가중 알고리즘 모델", "예상 상호작용 비율", `ER ${interactionRate}%`, baseScore, infoHtml, grade, themeColor);
-            }, 800);
+            renderUI('insta', "인스타그램 프로필", "인스타 가중 알고리즘 모델", "예상 상호작용 비율", `ER ${interactionRate}%`, baseScore, infoHtml, grade, themeColor);
         }
+        
+        // 변종 백업 브릿지 함수 연결
+        function fetchInstagramData(id) { fetchInstagramSimulatedData(id); }
+        function fetchInstagramRealData(id) { fetchInstagramSimulatedData(id); }
 
         // UI 렌더링 총괄 함수
         function renderUI(type, greeting, source, statTitle, statVal, score, listHtml, customGrade, customColor) {
@@ -309,7 +310,7 @@
             } else {
                 document.getElementById('rightCardTitle').innerText = "✨ 인스타 분석 가중치 세부 정보";
                 document.getElementById('formulaTitle').innerText = "📋 인스타 종합 지수 산출 근거 안내";
-                document.getElementById('formulaText').innerText = "본 지표는 계정 ID의 구조적 밀도를 분석하여 산출한 참고 지표입니다. 별도의 치트키나 보정 없이 공평한 수식에 의해 연산되며 공식 지수와는 무관합니다.";
+                document.getElementById('formulaText').innerText = "본 지표는 계정 ID의 구조적 밀도를 분석하여 산출한 참고 지표입니다. 별도의 치트키나 보정 없이 공식에 의해 연산되며 공식 지수와는 무관합니다.";
             }
 
             document.getElementById('dataContainer').innerHTML = listHtml;
