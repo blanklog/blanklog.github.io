@@ -308,11 +308,22 @@
             }
         }
 
-        function runKeywordAnalysis(kw) {
-            let score = 45 + (kw.length * 2);
-            if (kw.length >= 4 && kw.length <= 8) score += 20; 
+        
+      function runKeywordAnalysis(kw) {
+          const trimmedKw = kw ? kw.trim() : "";
+            const isChosung = /^[ㄱ-ㅎㅏ-ㅣ]$/.test(trimmedKw);
+            let score = 0;
+            if (trimmedKw.length === 0) {
+                score = 0;
+            } else if (isChosung || trimmedKw.length < 2) {
+                score = 15; 
+            } else {
+                score = 25 + (trimmedKw.length * 7) + (trimmedKw.charCodeAt(0) % 10) * 3;
+            }
             if (score > 94) score = 94;
+            if (score < 0) score = 0;
 
+            
             document.getElementById('circleScore').innerText = `${score}점`;
             document.getElementById('circleChart').style.background = `conic-gradient(#388bfd 0% ${score}%, #21262d ${score}% 100%)`;
             
