@@ -3,126 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>블로그 지수 분석 블랭크로그 | BlankLog</title>
+    <title>네이버 블로그 지수 분석기 브랭크로그 | BrankLog</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: #0d1117; 
             color: #ecf0f1;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            box-sizing: border-box;
         }
 
         .main-container {
-            background: #161b22; 
-            border: 1px solid #30363d;
-            border-radius: 16px;
-            padding: 40px 30px;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+            text-align: center;
             width: 100%;
             max-width: 460px;
-            text-align: center;
+            padding: 40px 24px;
+            box-sizing: border-box;
         }
 
-        .brand-header {
-            margin-bottom: 35px;
-        }
-
-        .main-logo-area {
-            display: inline-flex;
+        .brand-logo-zone {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
             gap: 12px;
-            margin-bottom: 15px;
         }
 
-        .main-logo-area img {
-            height: 45px; 
+        .brand-logo-zone img {
+            height: 45px;
             width: auto;
             display: block;
         }
 
-        .brand-text {
+        .brand-title {
             font-size: 28px;
             font-weight: 800;
+            letter-spacing: -1px;
             color: #ffffff;
             margin: 0;
-            letter-spacing: -0.5px;
             text-transform: uppercase;
         }
 
-        .sub-copy {
+        .brand-title span {
+            color: #03cf5d; 
+        }
+
+        .brand-tagline {
             font-size: 14px;
             color: #8b949e;
-            margin: 10px 0 0 0;
+            margin-top: 5px;
+            margin-bottom: 35px;
             font-weight: 400;
-            line-height: 1.4;
         }
 
-        .search-box {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-top: 25px;
-        }
-
-        .input-wrapper {
+        .input-group {
             position: relative;
-            width: 100%;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px 16px;
-            background-color: #0d1117;
+            background-color: #161b22;
             border: 1px solid #30363d;
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 15px;
-            box-sizing: border-box;
+            border-radius: 12px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        input:focus {
-            outline: none;
-            border-color: #03cf5d; 
-            box-shadow: 0 0 8px rgba(3, 207, 93, 0.15);
+        .input-group:focus-within {
+            border-color: #03cf5d;
+            box-shadow: 0 0 0 3px rgba(3, 207, 93, 0.15);
         }
 
-        input::placeholder {
+        .input-group input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-size: 15px;
+            padding: 12px 16px;
+            font-weight: 500;
+        }
+
+        .input-group input::placeholder {
             color: #484f58;
         }
 
-        button {
-            width: 100%;
-            padding: 14px;
+        .submit-btn {
+            background-color: #03cf5d;
+            color: #ffffff;
             border: none;
-            background: #03cf5d; 
-            color: #0d1117;      
-            font-size: 15px;
-            font-weight: 700;
             border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
+            transition: background-color 0.2s, transform 0.1s;
         }
 
-        button:hover {
-            background: #02b651; 
+        .submit-btn:hover {
+            background-color: #02b34f;
         }
 
-        button:active {
+        .submit-btn:active {
             transform: scale(0.98);
         }
 
-        .notice-text {
+        .info-tip {
             margin-top: 25px;
             font-size: 12px;
-            color: #484f58;
+            color: #6e7681;
             line-height: 1.5;
         }
     </style>
@@ -130,46 +123,32 @@
 <body>
 
     <div class="main-container">
-        <div class="brand-header">
-            <div class="main-logo-area">
-                <img src="logo.svg" alt="BlankLog Logo">
-            </div>
-            <h1 class="brand-text">Blank<span style="color: #03cf5d;">Log.</span></h1>
-            <p class="sub-copy">네이버 블로그 실시간 빅데이터<br>지수 및 당월 노출 가중치 분석기</p>
+        <div class="brand-logo-zone">
+            <img src="logo.svg" alt="BrankLog Logo">
+            <h1 class="brand-title">Brank<span>Log.</span></h1>
         </div>
+        <p class="brand-tagline">네이버 블로그 실시간 빅데이터 지수 분석 플랫폼</p>
 
-        <div class="search-box">
-            <div class="input-wrapper">
-                <input type="text" id="blogIdInput" placeholder="네이버 블로그 ID를 입력하세요" onkeypress="if(event.keyCode==13) startAnalysis();">
+        <form id="searchForm" onsubmit="navigateToResult(event)">
+            <div class="input-group">
+                <input type="text" id="blogIdInput" placeholder="네이버 블로그 아이디 입력" required autocomplete="off">
+                <button type="submit" class="submit-btn">분석하기</button>
             </div>
-            <button onclick="startAnalysis()">실시간 지수 분석 개시</button>
-        </div>
+        </form>
 
-        <p class="notice-text">
-            ※ 본 프로그램은 네이버 오픈 데이터 프로토콜을 실시간으로 디코딩하여 최근 30일간의 활동 지표를 엄격하게 다차원 연산합니다.
+        <p class="info-tip">
+            아이디 입력 시 해당 블로그의 최근 30일 활성 데이터 스코어 및<br>
+            종합 노출 가중치 리포트를 실시간으로 파싱하여 제공합니다.
         </p>
     </div>
 
     <script>
-        function startAnalysis() {
-            const rawInput = document.getElementById("blogIdInput").value.trim();
-            if (!rawInput) {
-                alert("분석하려는 네이버 블로그 ID를 입력해주세요.");
-                return;
+        function navigateToResult(event) {
+            event.preventDefault();
+            const blogId = document.getElementById('blogIdInput').value.trim();
+            if (blogId) {
+                window.location.href = `result.html?blogId=${encodeURIComponent(blogId)}`;
             }
-
-            let finalId = rawInput;
-
-            if (rawInput.includes("blog.naver.com/")) {
-                const parts = rawInput.split("blog.naver.com/");
-                finalId = parts[1].split("/")[0].split("?")[0];
-            } else if (rawInput.includes("naver.com/")) {
-                const parts = rawInput.split("naver.com/");
-                finalId = parts[1].split("/")[0].split("?")[0];
-            }
-
-            const safeId = encodeURIComponent(finalId);
-            window.location.href = `result.html?blogId=${safeId}`;
         }
     </script>
 </body>
