@@ -17,19 +17,12 @@
         }
         .main-container {
             width: 100%;
-            max-width: 550px;
+            max-width: 500px;
             padding: 20px;
             text-align: center;
         }
-        .logo-box {
-            margin-bottom: 10px;
-        }
-        .logo-box img {
-            height: 32px;
-            margin-bottom: 5px;
-        }
         .brand-text {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 800;
             letter-spacing: -0.5px;
             color: #ffffff;
@@ -37,9 +30,9 @@
             margin: 0 0 10px 0;
         }
         .main-sub {
-            font-size: 13px;
+            font-size: 14px;
             color: #8b949e;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
         .search-section {
             background-color: #161b22;
@@ -50,20 +43,14 @@
             margin-bottom: 25px;
         }
         .input-group {
-            margin-bottom: 25px;
             text-align: left;
-        }
-        .input-group:last-child {
-            margin-bottom: 0;
         }
         .input-label {
             font-size: 13px;
             font-weight: 600;
             color: #8b949e; 
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: block;
-            line-height: 1.5;
-            word-break: keep-all;
         }
         .search-box {
             display: flex;
@@ -80,7 +67,7 @@
             outline: none;
             color: #ffffff;
             padding: 10px 12px;
-            font-size: 14px;
+            font-size: 15px;
         }
         .search-box input::placeholder {
             color: #484f58;
@@ -89,31 +76,15 @@
             background: #03cf5d;
             color: #ffffff;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 24px;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             transition: opacity 0.2s;
         }
-        .btn-insta {
-            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .btn-naver:hover, .btn-insta:hover {
+        .btn-naver:hover {
             opacity: 0.9;
-        }
-        .divider {
-            border: none;
-            border-top: 1px dashed #30363d;
-            margin: 25px 0;
         }
         .footer-notice {
             font-size: 11px;
@@ -125,49 +96,31 @@
 <body>
 
     <div class="main-container">
-        <div class="logo-box">
-            <img src="logo.svg" alt="BrankLog Logo">
-            <h1 class="brand-text">Brank<span style="color: #03cf5d;">Log.</span></h1>
-        </div>
-        <p class="main-sub">네이버 블로그 및 인스타그램 실시간 빅데이터 지수 분석 플랫폼</p>
+        <h1 class="brand-text">Brank<span style="color: #03cf5d;">Log.</span></h1>
+        <p class="main-sub">네이버 블로그 지수 및 플레이스 마케팅 가중치 분석 플랫폼</p>
 
         <div class="search-section">
             <div class="input-group">
-                <span class="input-label">블로그 지수 분석 (Naver)</span>
+                <span class="input-label">블로그 지수 및 지도 키워드 통합 분석 (Naver)</span>
                 <div class="search-box">
-                    <input type="text" id="naverId" placeholder="네이버 블로그 아이디 입력" onkeypress="if(event.keyCode==13) targetSearch('naver')">
-                    <button class="btn-naver" onclick="targetSearch('naver')">분석하기</button>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="input-group">
-                <span class="input-label">인스타그램 아이디 입력으로 최적화 지수와 해시태그 가중치를 분석합니다.</span>
-                <div class="search-box">
-                    <input type="text" id="instaId" placeholder="인스타그램 아이디 입력" onkeypress="if(event.keyCode==13) targetSearch('insta')">
-                    <button class="btn-insta" onclick="targetSearch('insta')">분석하기</button>
+                    <input type="text" id="blogId" placeholder="네이버 식별 ID 입력" onkeypress="if(event.keyCode==13) startAnalysis()">
+                    <button class="btn-naver" onclick="startAnalysis()">분석하기</button>
                 </div>
             </div>
         </div>
 
         <p class="footer-notice">
-            아이디 입력 시 해당 채널의 최근 활성 데이터 스코어 및<br>
-            종합 노출 가중치 리포트를 실시간으로 파싱하여 제공합니다.
+            계정 ID 입력 시 해당 채널의 최근 활성 데이터 스코어 리포트 및<br>
+            플레이스·키워드 노출 적합성 가중치를 실시간 연산하여 제공합니다.
         </p>
     </div>
 
     <script>
-        function targetSearch(type) {
-            if (type === 'naver') {
-                const id = document.getElementById('naverId').value.trim();
-                if (!id) return alert('네이버 아이디를 입력해주세요.');
-                location.href = `result.html?type=naver&id=${encodeURIComponent(id)}`;
-            } else {
-                const id = document.getElementById('instaId').value.trim();
-                if (!id) return alert('인스타그램 아이디를 입력해주세요.');
-                location.href = `result.html?type=insta&id=${encodeURIComponent(id)}`;
-            }
+        function startAnalysis() {
+            const id = document.getElementById('blogId').value.trim();
+            if (!id) return alert('네이버 계정 ID를 입력해주세요.');
+            // 🔑 직전에 드린 플레이스·키워드 대응판 result.html 규격에 한 치의 오차도 없이 이름표 매칭
+            location.href = `result.html?blogId=${encodeURIComponent(id)}`;
         }
     </script>
 </body>
