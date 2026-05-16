@@ -56,13 +56,15 @@
         .input-group:last-child {
             margin-bottom: 0;
         }
+        /* 🎨 두 타이틀 문구의 규격을 칼같이 일치시키는 클래스 */
         .input-label {
             font-size: 13px;
             font-weight: 600;
-            color: #ffffff;
+            color: #8b949e; /* 미니멀한 UI를 위해 톤다운된 고급스러운 회색으로 통일 */
             margin-bottom: 10px;
             display: block;
             line-height: 1.5;
+            word-break: keep-all;
         }
         .search-box {
             display: flex;
@@ -132,7 +134,7 @@
 
         <div class="search-section">
             <div class="input-group">
-                <span class="input-label" style="color: #8b949e;">블로그 지수 분석 (Naver)</span>
+                <span class="input-label">블로그 지수 분석 (Naver)</span>
                 <div class="search-box">
                     <input type="text" id="naverId" placeholder="네이버 블로그 아이디 입력" onkeypress="if(event.keyCode==13) targetSearch('naver')">
                     <button class="btn-naver" onclick="targetSearch('naver')">분석하기</button>
@@ -142,32 +144,4 @@
             <div class="divider"></div>
 
             <div class="input-group">
-                <span class="input-label">인스타그램 아이디 입력으로 최적화 지수와 해시태그 확산 가중치를 분석합니다.</span>
-                <div class="search-box" style="border-color: #443e54;">
-                    <input type="text" id="instaId" placeholder="인스타그램 아이디 입력" onkeypress="if(event.keyCode==13) targetSearch('insta')">
-                    <button class="btn-insta" onclick="targetSearch('insta')">분석하기</button>
-                </div>
-            </div>
-        </div>
-
-        <p class="footer-notice">
-            아이디 입력 시 해당 채널의 최근 활성 데이터 스코어 및<br>
-            종합 노출 가중치 리포트를 실시간으로 파싱하여 제공합니다.
-        </p>
-    </div>
-
-    <script>
-        function targetSearch(type) {
-            if (type === 'naver') {
-                const id = document.getElementById('naverId').value.trim();
-                if (!id) return alert('네이버 아이디를 입력해주세요.');
-                location.href = `result.html?type=naver&id=${encodeURIComponent(id)}`;
-            } else {
-                const id = document.getElementById('instaId').value.trim();
-                if (!id) return alert('인스타그램 아이디를 입력해주세요.');
-                location.href = `result.html?type=insta&id=${encodeURIComponent(id)}`;
-            }
-        }
-    </script>
-</body>
-</html>
+                <span class="input-label
