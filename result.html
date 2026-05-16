@@ -71,7 +71,7 @@
         .spinner { border: 4px solid rgba(255,255,255,0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: #03cf5d; animation: spin 1s linear infinite; margin: 0 auto 20px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* 💡 [신규 스타일 추가] 추천 키워드 영역 디자인 레이아웃 (기존 디자인 무결성 유지) */
+        /* 추천 키워드 영역 스타일 */
         .recommend-container { display: none; margin-top: 15px; padding: 14px; background: #0d1117; border: 1px solid #21262d; border-radius: 10px; text-align: left; }
         .recommend-heading { font-size: 12px; font-weight: 600; color: #8b949e; margin-bottom: 8px; display: block; }
         .recommend-tags-wrapper { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -133,7 +133,6 @@
                     </div>
                     
                     <div class="analysis-status-badge">
-                        <div class="analysis-status-badge">
                         노출 가중 상태: <span id="statusText" style="color: #03cf5d; font-weight:700;">정상</span>
                     </div>
                 </div>
@@ -399,20 +398,38 @@
             document.getElementById('noticeBody').innerText = "입력한 단독 키워드의 자수 결합 안정성 및 마케팅 가독성 밀도를 연산한 결과입니다. (※ 프록시 서버 및 포털 RSS 네트워크 상태에 따라 간혹 데이터 로딩이 지연되거나 차이가 발생해 결과가 일시적으로 다르게 나타날 수 있습니다.)";
             document.getElementById('postContainer').innerHTML = reportHtml;
 
-            // 💡 [신규 스크립트 로직 주입] 키워드 연산 완료 시점 추천 태그 생성 (기존 소스 무손상 보존)
-            const suffixList = ["교환/교체", "추천", "비용", "후기", "업체"];
+            // 🎯 [정밀 맥락 인지 필터 엔진] 단어의 정체성을 파악해 완벽 매칭 세트를 적용합니다.
+            let suffixList = ["추천", "비용", "후기", "방법", "효과"]; // 기본 마케팅 범용 세트
+            
+            // 특수 키워드 필터링용 카테고리 정의
+            const isAuto = ["타이어", "정비", "카센타", "엔진오일", "배터리", "브레이크", "공임"].some(v => kw.includes(v));
+            const isBeauty = ["크림", "세럼", "앰플", "화장품", "에센스", "토너", "쿠션", "립스틱"].some(v => kw.includes(v)) && !kw.includes("피부과");
+            const isTech = ["아이폰", "갤럭시", "노트북", "모니터", "마우스", "아이패드", "맥북", "스마트폰"].some(v => kw.includes(v));
+            const isFoodAndLocal = ["맛집", "카페", "딸기", "사과", "고구마", "농장", "식당", "빵집", "전주", "익산", "군산"].some(v => kw.includes(v));
+
+            // 조건 분기 실행 (오차 없이 명확하게 단독 타겟팅)
+            if (isAuto) {
+                suffixList = ["교환", "교체", "싼곳", "전문점", "가격비교"];
+            } else if (isBeauty) {
+                suffixList = ["사용법", "효과", "내돈내산", "성분분석", "부작용"];
+            } else if (isTech) {
+                suffixList = ["출시일", "스펙", "가격", "장단점", "할인"];
+            } else if (isFoodAndLocal) {
+                suffixList = ["가볼만한곳", "핫플", "추천", "내돈내산", "솔직후기"];
+            }
+
             const recommendArea = document.getElementById('recommendArea');
             const recommendTags = document.getElementById('recommendTags');
             
             if (recommendArea && recommendTags) {
-                recommendTags.innerHTML = ""; // 기존 태그 초기화
+                recommendTags.innerHTML = ""; 
                 suffixList.forEach(suffix => {
                     const span = document.createElement("span");
                     span.className = "recommend-tag-item";
                     span.innerText = `${kw} ${suffix}`;
                     recommendTags.appendChild(span);
                 });
-                recommendArea.style.display = "block"; // 키워드 모드일 때만 활성화 노출
+                recommendArea.style.display = "block"; 
             }
             
             document.getElementById('loader').style.display = "none";
