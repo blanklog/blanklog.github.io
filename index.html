@@ -157,19 +157,25 @@
             종합 노출 가중치 리포트를 실시간으로 파싱하여 제공합니다.
         </p>
     </div>
-
-    <script>
-        function startAnalysis(type) {
-            if (type === 'blog') {
-                const id = document.getElementById('blogId').value.trim();
-                if (!id) return alert('네이버 블로그 아이디를 입력해주세요.');
-                location.href = `result.html?blogId=${encodeURIComponent(id)}`;
-            } else {
-                const keyword = document.getElementById('keywordId').value.trim();
-                if (!keyword) return alert('분석할 키워드를 입력해주세요.');
-                location.href = `result.html?keywordOnly=${encodeURIComponent(keyword)}`;
+<script>
+        function validateBlog() {
+            const val = document.getElementById('blogId').value.trim();
+            if(!val) {
+                alert('분석할 블로그 아이디를 입력해 주세요.');
+                return false;
             }
+            return true;
+        }
+
+        function validatePlace() {
+            const val = document.getElementById('placeNameInput').value.trim();
+            if(!val) {
+                alert('검색할 매장 상호명을 입력해 주세요.');
+                return false;
+            }
+            return true;
         }
     </script>
+  
 </body>
 </html>
