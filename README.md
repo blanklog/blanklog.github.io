@@ -1,0 +1,1 @@
+# blanklog.github.io
