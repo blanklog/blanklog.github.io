@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>블로그 지수 조회 플랫폼</title>
+    <title>블로그 지수 분석 블랭크로그 | BlankLog</title>
     <style>
-        /* 미니멀하고 세련된 블라이 스타일 레이아웃 */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #f7f9fc;
-            color: #1e293b;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0d1117; /* 세련된 딥 블랙 */
+            color: #ecf0f1;
             margin: 0;
             padding: 0;
             display: flex;
@@ -30,25 +29,24 @@
             margin-bottom: 40px;
         }
 
-        /* 깔끔한 라인 스타일의 심볼 마크 효과 */
+        /* 블랙 배경에 대비되는 플랫한 라인 심볼 */
         .brand-logo {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 56px;
             height: 56px;
-            background-color: #ffffff;
+            background-color: #161b22;
             border: 2px solid #03cf5d;
             border-radius: 14px;
             margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(3, 207, 93, 0.08);
+            box-shadow: 0 4px 20px rgba(3, 207, 93, 0.15);
         }
 
-        /* 로고 내부의 심플한 블랙 라인 그래픽 */
         .brand-logo svg {
-            width: 28px;
-            height: 28px;
-            stroke: #1e293b;
+            width: 26px;
+            height: 26px;
+            stroke: #03cf5d;
             stroke-width: 2.5;
             fill: none;
         }
@@ -58,26 +56,24 @@
             font-weight: 800;
             letter-spacing: -0.5px;
             margin: 0 0 8px 0;
-            color: #0f172a;
+            color: #ffffff;
         }
 
         .brand-zone p {
-            font-size: 15px;
-            color: #64748b;
+            font-size: 14px;
+            color: #8b949e;
             margin: 0;
-            font-weight: 400;
         }
 
         .search-container {
-            background: #ffffff;
+            background: #161b22; /* 컨테이너 다크화 */
             padding: 32px 24px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border: 1px solid #30363d;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .input-group {
-            position: relative;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -86,7 +82,7 @@
         .input-group label {
             font-size: 13px;
             font-weight: 600;
-            color: #475569;
+            color: #8b949e;
             padding-left: 4px;
         }
 
@@ -96,16 +92,15 @@
             align-items: center;
         }
 
-        /* 엠보싱 없이 플랫하고 선명한 인풋창 */
         input[type="text"] {
             width: 100%;
             padding: 16px 16px 16px 44px;
-            border: 1.5px solid #e2e8f0;
+            border: 1.5px solid #30363d;
             border-radius: 12px;
             font-size: 16px;
             font-weight: 500;
-            color: #0f172a;
-            background-color: #f8fafc;
+            color: #ffffff;
+            background-color: #0d1117;
             box-sizing: border-box;
             transition: all 0.2s ease;
         }
@@ -113,15 +108,13 @@
         input[type="text"]:focus {
             outline: none;
             border-color: #03cf5d;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(3, 207, 93, 0.1);
+            box-shadow: 0 0 0 4px rgba(3, 207, 93, 0.15);
         }
 
-        /* 인풋창 내부 아이콘 코딩 */
         .input-icon {
             position: absolute;
             left: 16px;
-            color: #94a3b8;
+            color: #8b949e;
             display: flex;
             align-items: center;
         }
@@ -134,10 +127,9 @@
             stroke-width: 2;
         }
 
-        /* 시선을 끄는 와이드한 메인 버튼 */
         button {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 24px;
             padding: 16px;
             background-color: #03cf5d;
             color: #ffffff;
@@ -153,24 +145,18 @@
         button:hover {
             background-color: #02b852;
             transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(3, 207, 93, 0.25);
-        }
-
-        button:active {
-            transform: translateY(0);
         }
 
         .footer-notice {
             text-align: center;
-            margin-top: 24px;
+            margin-top: 30px;
             font-size: 12px;
-            color: #94a3b8;
+            color: #484f58;
             line-height: 1.5;
         }
     </style>
 </head>
 <body>
-
     <div class="main-wrapper">
         <div class="brand-zone">
             <div class="brand-logo">
@@ -180,7 +166,7 @@
                 </svg>
             </div>
             <h1>블로그 지수 분석기</h1>
-            <p>네이버 블로그의 실시간 등급과 포스팅 상태를 조회합니다</p>
+            <p>네이버 블로그의 실시간 등급과 상태를 조회합니다</p>
         </div>
 
         <div class="search-container">
@@ -206,6 +192,5 @@
             © blanklog. All rights reserved.
         </div>
     </div>
-
 </body>
 </html>
