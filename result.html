@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>블라이(BLAI) 스타일 블로그 지수 조회 결과</title>
+    <title>블로그 지수 분석 플랫폼 | BlankLog</title>
     <style>
+        /* 미니멀하고 세련된 프리미엄 분석 플랫폼 스타일 */
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f6fa; color: #333; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
         .container { background: white; padding: 35px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 480px; }
         .loading { font-size: 16px; color: #666; padding: 40px 0; text-align: center; }
@@ -32,7 +33,7 @@
     <div class="container">
         <div id="loader" class="loading">
             <div class="spinner"></div>
-            <b>블로그 지수를 실시간 정밀 연산 중입니다</b>
+            <b>블로그 지수를 실시간 분석 중입니다</b>
         </div>
         
         <div id="resultContent" class="blog-info">
@@ -49,7 +50,7 @@
             </div>
 
             <div class="info-row" style="background: transparent; padding: 0 5px; margin-bottom: 20px;">
-                <span class="info-label">데이터 분석 신뢰도</span>
+                <span class="info-label">데이터 분석 상태</span>
                 <span id="postStatus" class="info-value" style="color: #03cf5d;">추정치</span>
             </div>
             
@@ -61,7 +62,33 @@
     </div>
 
     <script>
-        // 🛠️ 1. 여기에 정확히 띄우고 싶은 내 아이디와 실제 블라이 지수를 적어주세요!
-        // (영어 아이디는 꼭 '소문자'로 적으셔야 정확하게 매칭됩니다.)
+        // 🛠️ 1. 정확히 고정하고 싶은 내 네이버 아이디와 실제 지수를 여기에 적어주세요!
+        // (아이디는 알파벳 소문자로 적으셔야 인식이 잘 됩니다.)
         const exactDatabase = {
-            "내아이디1": "최
+            "내아이디1": "최적화 2단계",
+            "내아이디2": "최적화 1단계",
+            "테스트아이디": "준최적화 5단계"
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const blogId = urlParams.get('blogId');
+
+        if (!blogId) {
+            document.getElementById('loader').innerHTML = "<span class='error-msg'>올바른 블로그 ID가 전달되지 않았습니다.</span>";
+        } else {
+            document.getElementById('displayId').innerText = blogId;
+            fetchBlogRealData(blogId);
+        }
+
+        async function fetchBlogRealData(id) {
+            const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+            const targetUrl = `https://rss.blog.naver.com/${id}.xml`;
+
+            try {
+                const response = await fetch(proxyUrl + targetUrl);
+                if (!response.ok) throw new Error("블로그를 찾을 수 없습니다.");
+                
+                const textData = await response.text();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(textData, "text/xml");
+                const items = xmlDoc.getElementsByTagName("item");
