@@ -5,18 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>블로그 지수 분석 블랭크로그 | BlankLog</title>
     <style>
-        /* 🎨 노란색 컬러 포인트 수정 구역 - 로고 색상에 맞춰 요리조리 조절하세요 */
-        :root {
-            --point-color: #FFD700;       /* 기본 노란색 포인트 */
-            --point-hover-color: #E6C200; /* 버튼 마우스 호버 시 살짝 어두운 노란색 */
-            --bg-color: #0d1117;          /* 깊이감 있는 딥블랙 배경 */
-            --card-bg-color: #161b22;     /* 카드 레이아웃 배경 */
-            --border-color: #30363d;      /* 세련된 다크 그레이 라인 */
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
+            background-color: #0d1117; 
             color: #ecf0f1;
             margin: 0;
             padding: 20px;
@@ -28,8 +19,8 @@
         }
 
         .main-container {
-            background: var(--card-bg-color);
-            border: 1px solid var(--border-color);
+            background: #161b22;
+            border: 1px solid #30363d;
             border-radius: 16px;
             padding: 40px 30px;
             box-shadow: 0 12px 32px rgba(0,0,0,0.4);
@@ -51,7 +42,7 @@
         }
 
         .main-logo-area img {
-            height: 45px;
+            height: 45px; 
             width: auto;
             display: block;
         }
@@ -88,8 +79,8 @@
         input {
             width: 100%;
             padding: 14px 16px;
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
+            background-color: #0d1117;
+            border: 1px solid #30363d;
             border-radius: 8px;
             color: #ffffff;
             font-size: 15px;
@@ -97,24 +88,22 @@
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        /* 🛠️ 입력창 포커싱 시 노란색 라인 효과 적용 */
         input:focus {
             outline: none;
-            border-color: var(--point-color);
-            box-shadow: 0 0 8px rgba(255, 215, 0, 0.15);
+            border-color: #03cf5d; /* 포커싱 시 다시 네온그린 라인 */
+            box-shadow: 0 0 8px rgba(3, 207, 93, 0.15);
         }
 
         input::placeholder {
             color: #484f58;
         }
 
-        /* 🛠️ 조회 버튼을 상큼한 노란색으로 수술 완료! */
         button {
             width: 100%;
             padding: 14px;
             border: none;
-            background: var(--point-color); /* 노란색 배경 */
-            color: #0d1117;                  /* 글자는 어둡게 빼서 가독성 확보 */
+            background: #03cf5d; /* 시그니처 네온그린 버튼 복구 */
+            color: #0d1117;
             font-size: 15px;
             font-weight: 700;
             border-radius: 8px;
@@ -123,7 +112,7 @@
         }
 
         button:hover {
-            background: var(--point-hover-color);
+            background: #02b651;
         }
 
         button:active {
@@ -141,12 +130,11 @@
 <body>
 
     <div class="main-container">
-        
         <div class="brand-header">
             <div class="main-logo-area">
                 <img src="logo.svg" alt="BlankLog Logo">
             </div>
-            <h1 class="brand-text">Blank<span style="color: var(--point-color);">Log.</span></h1>
+            <h1 class="brand-text">Blank<span style="color: #03cf5d;">Log.</span></h1>
             <p class="sub-copy">네이버 블로그 실시간 빅데이터<br>지수 및 당월 노출 가중치 분석기</p>
         </div>
 
