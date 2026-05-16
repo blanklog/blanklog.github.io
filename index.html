@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>블로그 지수 분석 블랭크로그 | BlankLog</title>
     <style>
+        /* 🎨 노란색 컬러 포인트 수정 구역 - 로고 색상에 맞춰 요리조리 조절하세요 */
+        :root {
+            --point-color: #FFD700;       /* 기본 노란색 포인트 */
+            --point-hover-color: #E6C200; /* 버튼 마우스 호버 시 살짝 어두운 노란색 */
+            --bg-color: #0d1117;          /* 깊이감 있는 딥블랙 배경 */
+            --card-bg-color: #161b22;     /* 카드 레이아웃 배경 */
+            --border-color: #30363d;      /* 세련된 다크 그레이 라인 */
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #0d1117; /* 세련된 딥 블랙 */
+            background-color: var(--bg-color);
             color: #ecf0f1;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,138 +27,111 @@
             box-sizing: border-box;
         }
 
-        .main-wrapper {
+        .main-container {
+            background: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.4);
             width: 100%;
             max-width: 460px;
-            padding: 20px;
-        }
-
-        .brand-zone {
             text-align: center;
-            margin-bottom: 40px;
         }
 
-        /* 블랙 배경에 대비되는 플랫한 라인 심볼 */
-        .brand-logo {
+        .brand-header {
+            margin-bottom: 35px;
+        }
+
+        .main-logo-area {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 56px;
-            height: 56px;
-            background-color: #161b22;
-            border: 2px solid #03cf5d;
-            border-radius: 14px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 20px rgba(3, 207, 93, 0.15);
+            gap: 12px;
+            margin-bottom: 15px;
         }
 
-        .brand-logo svg {
-            width: 26px;
-            height: 26px;
-            stroke: #03cf5d;
-            stroke-width: 2.5;
-            fill: none;
+        .main-logo-area img {
+            height: 45px;
+            width: auto;
+            display: block;
         }
 
-        .brand-zone h1 {
-            font-size: 26px;
+        .brand-text {
+            font-size: 28px;
             font-weight: 800;
-            letter-spacing: -0.5px;
-            margin: 0 0 8px 0;
             color: #ffffff;
+            margin: 0;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
         }
 
-        .brand-zone p {
+        .sub-copy {
             font-size: 14px;
             color: #8b949e;
-            margin: 0;
+            margin: 10px 0 0 0;
+            font-weight: 400;
+            line-height: 1.4;
         }
 
-        .search-container {
-            background: #161b22; /* 컨테이너 다크화 */
-            padding: 32px 24px;
-            border-radius: 20px;
-            border: 1px solid #30363d;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .input-group {
+        .search-box {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-        }
-
-        .input-group label {
-            font-size: 13px;
-            font-weight: 600;
-            color: #8b949e;
-            padding-left: 4px;
+            gap: 14px;
+            margin-top: 25px;
         }
 
         .input-wrapper {
             position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        input[type="text"] {
             width: 100%;
-            padding: 16px 16px 16px 44px;
-            border: 1.5px solid #30363d;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             color: #ffffff;
-            background-color: #0d1117;
+            font-size: 15px;
             box-sizing: border-box;
-            transition: all 0.2s ease;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        input[type="text"]:focus {
+        /* 🛠️ 입력창 포커싱 시 노란색 라인 효과 적용 */
+        input:focus {
             outline: none;
-            border-color: #03cf5d;
-            box-shadow: 0 0 0 4px rgba(3, 207, 93, 0.15);
+            border-color: var(--point-color);
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.15);
         }
 
-        .input-icon {
-            position: absolute;
-            left: 16px;
-            color: #8b949e;
-            display: flex;
-            align-items: center;
+        input::placeholder {
+            color: #484f58;
         }
 
-        .input-icon svg {
-            width: 18px;
-            height: 18px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-        }
-
+        /* 🛠️ 조회 버튼을 상큼한 노란색으로 수술 완료! */
         button {
             width: 100%;
-            margin-top: 24px;
-            padding: 16px;
-            background-color: #03cf5d;
-            color: #ffffff;
+            padding: 14px;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            background: var(--point-color); /* 노란색 배경 */
+            color: #0d1117;                  /* 글자는 어둡게 빼서 가독성 확보 */
+            font-size: 15px;
             font-weight: 700;
+            border-radius: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(3, 207, 93, 0.2);
-            transition: all 0.2s ease;
+            transition: background 0.2s, transform 0.1s;
         }
 
         button:hover {
-            background-color: #02b852;
-            transform: translateY(-1px);
+            background: var(--point-hover-color);
         }
 
-        .footer-notice {
-            text-align: center;
-            margin-top: 30px;
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .notice-text {
+            margin-top: 25px;
             font-size: 12px;
             color: #484f58;
             line-height: 1.5;
@@ -157,40 +139,46 @@
     </style>
 </head>
 <body>
-    <div class="main-wrapper">
-        <div class="brand-zone">
-            <div class="brand-logo">
-                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    <path d="M10 7v6m3-3h-6"></path>
-                </svg>
+
+    <div class="main-container">
+        
+        <div class="brand-header">
+            <div class="main-logo-area">
+                <img src="logo.svg" alt="BlankLog Logo">
             </div>
-            <h1>블로그 지수 분석기</h1>
-            <p>네이버 블로그의 실시간 등급과 상태를 조회합니다</p>
+            <h1 class="brand-text">Blank<span style="color: var(--point-color);">Log.</span></h1>
+            <p class="sub-copy">네이버 블로그 실시간 빅데이터<br>지수 및 당월 노출 가중치 분석기</p>
         </div>
 
-        <div class="search-container">
-            <form action="result.html" method="GET">
-                <div class="input-group">
-                    <label for="blogId">네이버 블로그 아이디</label>
-                    <div class="input-wrapper">
-                        <div class="input-icon">
-                            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
-                                <circle cx="8.5" cy="7" r="4"></circle>
-                            </svg>
-                        </div>
-                        <input type="text" id="blogId" name="blogId" placeholder="ex) naver_id" required autocomplete="off">
-                    </div>
-                </div>
-                <button type="submit">실시간 지수 조회하기</button>
-            </form>
+        <div class="search-box">
+            <div class="input-wrapper">
+                <input type="text" id="blogIdInput" placeholder="네이버 블로그 ID를 입력하세요" onkeypress="if(event.keyCode==13) startAnalysis();">
+            </div>
+            <button onclick="startAnalysis()">실시간 지수 분석 개시</button>
         </div>
 
-        <div class="footer-notice">
-            본 서비스는 블로그 RSS 데이터를 기반으로 작동하는 공개 분석 도구입니다.<br>
-            © blanklog. All rights reserved.
-        </div>
+        <p class="notice-text">
+            ※ 본 프로그램은 네이버 오픈 데이터 프로토콜을 실시간으로 디코딩하여 최근 30일간의 활동 지표를 엄격하게 다차원 연산합니다.
+        </p>
     </div>
+
+    <script>
+        function startAnalysis() {
+            const rawInput = document.getElementById("blogIdInput").value.trim();
+            if (!rawInput) {
+                alert("분석하려는 네이버 블로그 ID를 입력해주세요.");
+                return;
+            }
+            let finalId = rawInput;
+            if (rawInput.includes("blog.naver.com/")) {
+                const parts = rawInput.split("blog.naver.com/");
+                finalId = parts[1].split("/")[0].split("?")[0];
+            } else if (rawInput.includes("naver.com/")) {
+                const parts = rawInput.split("naver.com/");
+                finalId = parts[1].split("/")[0].split("?")[0];
+            }
+            window.location.href = `result.html?blogId=${encodeURIComponent(finalId)}`;
+        }
+    </script>
 </body>
 </html>
