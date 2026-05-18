@@ -1,172 +1,285 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>블로그 지수 분석 B랭크로그 | BrankLog</title>
-     <link rel="apple-touch-icon" href="logo.svg">
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #0d1117;
-            color: #ecf0f1;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .main-container {
-            width: 100%;
-            max-width: 500px;
-            padding: 20px;
-            text-align: center;
-            box-sizing: border-box;
-        }
-        
-        /* 🌟 [디자인 교정] 로고와 텍스트를 위아래 2단 배치로 크게 확장 */
-        .brand-logo-area {
-            display: flex;
-            flex-direction: column; /* 세로 배열로 변경하여 크기 극대화 */
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 12px;
-        }
-        /* 로고 마크 크기를 시원시원하게 스케일업 */
-        .brand-logo-area img {
-            height: 56px; /* 기존 32px에서 대폭 확장 */
-            width: auto;
-            display: block;
-        }
-        /* 타이틀 서체 크기를 굵고 웅장하게 키우기 */
-        .brand-text {
-            font-size: 38px; /* 기존 26px에서 대폭 확장 */
-            font-weight: 800;
-            letter-spacing: -1px;
-            color: #ffffff;
-            text-transform: uppercase;
-        }
-        .main-sub {
-            font-size: 15px;
-            color: #8b949e;
-            margin-bottom: 40px;
-        }
-        
-        /* 검색 섹션 레이아웃 */
-        .search-section {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 16px;
-            padding: 30px 24px;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.4);
-            margin-bottom: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-        .input-group {
-            text-align: left;
-        }
-        .input-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: #8b949e; 
-            margin-bottom: 12px;
-            display: block;
-        }
-        
-        /* 🌟 [디자인 교정] 인풋 입력창 구역을 흰색(White) 배경으로 완전 반전 */
-        .search-box {
-            display: flex;
-            background: #ffffff; /* 완전히 투명하고 정갈한 흰색 바탕 */
-            border: 1px solid #ffffff;
-            border-radius: 10px;
-            padding: 6px;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        /* 흰색 배경에 맞춰 입력 텍스트와 플레이스홀더 컬러 최적화 */
-        .search-box input {
-            flex-grow: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: #0d1117; /* 글자색을 어두운 톤으로 변경하여 가독성 확보 */
-            padding: 10px 12px;
-            font-size: 15px;
-            width: 100%;
-            font-weight: 500;
-        }
-        .search-box input::placeholder {
-            color: #8b949e; /* 흰색 바탕에서 잘 보이는 차분한 회색 플레이스홀더 */
-        }
-        
-        /* 버튼 스타일 지정 */
-        .btn-common {
-            color: #ffffff;
-            border: none;
-            padding: 11px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .btn-naver { background: #03cf5d; }
-        .btn-keyword { background: #388bfd; }
-        .btn-common:hover { opacity: 0.9; }
-        
-        .divider {
-            height: 1px;
-            background: #30363d;
-            border: none;
-            margin: 5px 0;
-        }
-        .footer-notice {
-            font-size: 11px;
-            color: #6e7681;
-            line-height: 1.6;
-            word-break: keep-all;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>블로그 지수 분석 B랭크로그 | BrankLog</title>
+
+<link rel="icon" type="image/png" href="branklogo512.png">
+<link rel="apple-touch-icon" href="branklogo512.png">
+<link rel="manifest" href="manifest.json">
+
+<style>
+
+body{
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+background-color:#0d1117;
+color:#ecf0f1;
+margin:0;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+}
+
+.main-container{
+width:100%;
+max-width:500px;
+padding:20px;
+text-align:center;
+box-sizing:border-box;
+}
+
+.brand-logo-area{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:15px;
+margin-bottom:12px;
+}
+
+.brand-logo-area img{
+height:56px;
+width:auto;
+display:block;
+}
+
+.brand-text{
+font-size:38px;
+font-weight:800;
+letter-spacing:-1px;
+color:#ffffff;
+text-transform:uppercase;
+}
+
+.main-sub{
+font-size:15px;
+color:#8b949e;
+margin-bottom:40px;
+}
+
+.search-section{
+background-color:#161b22;
+border:1px solid #30363d;
+border-radius:16px;
+padding:30px 24px;
+box-shadow:0 12px 32px rgba(0,0,0,0.4);
+margin-bottom:25px;
+display:flex;
+flex-direction:column;
+gap:25px;
+}
+
+.input-group{
+text-align:left;
+}
+
+.input-label{
+font-size:13px;
+font-weight:600;
+color:#8b949e;
+margin-bottom:12px;
+display:block;
+}
+
+.search-box{
+display:flex;
+background:#ffffff;
+border:1px solid #ffffff;
+border-radius:10px;
+padding:6px;
+align-items:center;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.search-box input{
+flex-grow:1;
+background:transparent;
+border:none;
+outline:none;
+color:#0d1117;
+padding:10px 12px;
+font-size:15px;
+width:100%;
+font-weight:500;
+}
+
+.search-box input::placeholder{
+color:#8b949e;
+}
+
+.btn-common{
+color:#ffffff;
+border:none;
+padding:11px 20px;
+border-radius:8px;
+font-size:14px;
+font-weight:700;
+cursor:pointer;
+transition:opacity 0.2s;
+white-space:nowrap;
+flex-shrink:0;
+}
+
+.btn-naver{
+background:#03cf5d;
+}
+
+.btn-common:hover{
+opacity:0.9;
+}
+
+.footer-notice{
+font-size:11px;
+color:#6e7681;
+line-height:1.6;
+word-break:keep-all;
+}
+
+@media(max-width:768px){
+
+.brand-text{
+font-size:34px;
+}
+
+.brand-logo-area img{
+height:50px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-    <div class="main-container">
-        <div class="brand-logo-area">
-            <img src="logo.svg" alt="BrankLog Logo">
-            <span class="brand-text">Brank<span style="color: #03cf5d;">Log.</span></span>
-        </div>
-        <p class="main-sub">네이버 블로그 실시간 빅데이터 지수 분석 플랫폼</p>
+<div class="main-container">
 
-        <div class="search-section">
-            <div class="input-group">
-                <span class="input-label">블로그 지수 분석 (Naver)</span>
-                <div class="search-box">
-                    <input type="text" id="blogId" placeholder="네이버 블로그 ID를 입력해주세요" onkeypress="if(event.keyCode==13) startAnalysis('blog')">
-                    <button class="btn-common btn-naver" onclick="startAnalysis('blog')">분석하기</button>
-                </div>
-            </div>
+<div class="brand-logo-area">
+<img src="logo.svg" alt="BrankLog Logo">
 
-      
-        <p class="footer-notice">
-            아이디 입력 시 해당 블로그의 최근 30일 활성 데이터 스코어 및<br>
-            종합 노출 가중치 리포트를 실시간으로 파싱하여 제공합니다.
-        </p>
-    </div>
+<span class="brand-text">
+Brank<span style="color:#03cf5d;">Log.</span>
+</span>
+</div>
 
-    <script>
-        function startAnalysis(type) {
-            if (type === 'blog') {
-                const id = document.getElementById('blogId').value.trim();
-                if (!id) return alert('네이버 블로그 아이디를 입력해주세요.');
-                location.href = `result.html?blogId=${encodeURIComponent(id)}`;
-          
-            }
-        }
-    </script>
+<p class="main-sub">
+네이버 블로그 실시간 빅데이터 지수 분석 플랫폼
+</p>
+
+<div class="search-section">
+
+<div class="input-group">
+
+<span class="input-label">
+블로그 지수 분석 (Naver)
+</span>
+
+<div class="search-box">
+
+<input
+type="text"
+id="blogId"
+placeholder="네이버 블로그 ID를 입력해주세요"
+onkeypress="if(event.keyCode==13) startAnalysis()">
+
+<button
+class="btn-common btn-naver"
+onclick="startAnalysis()">
+
+분석하기
+
+</button>
+
+</div>
+
+<div id="caps-warning" style="
+display:none;
+margin-top:10px;
+font-size:13px;
+color:#ff5c5c;
+text-align:left;
+">
+⚠ CapsLock이 눌러졌습니다.
+</div>
+
+</div>
+
+</div>
+
+<p class="footer-notice">
+아이디 입력 시 해당 블로그의 최근 30일 활성 데이터 스코어 및<br>
+종합 노출 가중치 리포트를 실시간으로 파싱하여 제공합니다.
+</p>
+
+<div style="
+margin-top:18px;
+text-align:center;
+font-size:13px;
+">
+
+<a
+href="https://open.kakao.com/o/sAK0pH6f"
+target="_blank"
+style="
+display:inline-flex;
+align-items:center;
+gap:6px;
+color:#8b949e;
+text-decoration:none;
+">
+
+<img
+src="kakao-icon.png"
+style="
+width:16px;
+height:16px;
+object-fit:contain;
+"
+>
+
+광고 · 제휴 문의
+
+</a>
+
+</div>
+
+</div>
+
+<script>
+
+function startAnalysis() {
+
+const id =
+document.getElementById('blogId')
+.value.trim();
+
+if (!id)
+return alert('네이버 블로그 아이디를 입력해주세요.');
+
+location.href =
+`result.html?blogId=${encodeURIComponent(id)}`;
+
+}
+
+const blogInput =
+document.getElementById('blogId');
+
+const capsWarning =
+document.getElementById('caps-warning');
+
+blogInput.addEventListener('keyup', function(e){
+
+const isCaps =
+e.getModifierState('CapsLock');
+
+capsWarning.style.display =
+isCaps ? 'block' : 'none';
+
+});
+
+</script>
+
 </body>
 </html>
