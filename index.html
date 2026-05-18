@@ -269,13 +269,17 @@ document.getElementById('blogId');
 const capsWarning =
 document.getElementById('caps-warning');
 
-blogInput.addEventListener('keyup', function(e){
+blogInput.addEventListener('input', function(){
 
-const isCaps =
-e.getModifierState('CapsLock');
+    const value = blogInput.value;
 
-capsWarning.style.display =
-isCaps ? 'block' : 'none';
+    const isUppercase =
+    value &&
+    value === value.toUpperCase() &&
+    /[A-Z]/.test(value);
+
+    capsWarning.style.display =
+    isUppercase ? 'block' : 'none';
 
 });
 
